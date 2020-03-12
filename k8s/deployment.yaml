@@ -3,10 +3,14 @@ kind: Deployment
 metadata:
   name: trackingapi
   labels:
-        app: trackingapi
-        component: trackingapi
+    app: trackingapi
+    component: trackingapi
 spec:
   replicas: 2
+  selector: 
+    matchLabels: 
+      app: trackingapi
+      component: trackingapi
   minReadySeconds: 10
   strategy:
     type: RollingUpdate
@@ -17,10 +21,11 @@ spec:
     metadata:
       labels:
         app: trackingapi
+        component: trackingapi
     spec:
       containers:
       - name: trackingapi
-        image: productmicroservice.azurecr.io/trackingapi:latest     
+        image: microacr1.azurecr.io/trackingapi:latest     
         ports:
         - containerPort: 80
         imagePullPolicy: Always   
@@ -28,24 +33,21 @@ spec:
           requests:        
             cpu: "300m"
           limits:          
-            cpu: "600m"
-        
-
-
-  
+            cpu: "600m"     
 ---
-
-
-
 apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: paymentapi
   labels:
-        app: paymentapi
-        component: paymentapi
+    app: paymentapi
+    component: paymentapi
 spec:
-  replicas: 1  
+  replicas: 2  
+  selector: 
+    matchLabels: 
+      app: paymentapi
+      component: paymentapi
   minReadySeconds: 10
   strategy:
     type: RollingUpdate
@@ -56,29 +58,28 @@ spec:
     metadata:
       labels:
         app: paymentapi
+        component: paymentapi
     spec:
       containers:
       - name: paymentapi
-        image: productmicroservice.azurecr.io/paymentapi:latest     
+        image: microacr1.azurecr.io/paymentapi:latest     
         ports:
         - containerPort: 80
         imagePullPolicy: Always   
-       
-
-  
-
-
 ---
-
 apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: bookingapi
   labels:
-        app: bookingapi
-        component: bookingapi
+    app: bookingapi
+    component: bookingapi
 spec:
-  replicas: 1
+  replicas: 2
+  selector: 
+    matchLabels: 
+      app: bookingapi
+      component: bookingapi
   minReadySeconds: 10
   strategy:
     type: RollingUpdate
@@ -89,10 +90,11 @@ spec:
     metadata:
       labels:
         app: bookingapi
+        component: bookingapi
     spec:
       containers:
       - name: bookingapi
-        image: productmicroservice.azurecr.io/bookingapi:latest     
+        image: microacr1.azurecr.io/bookingapi:latest     
         ports:
         - containerPort: 80
         imagePullPolicy: Always   
@@ -101,23 +103,20 @@ spec:
             cpu: "200m"
           limits:          
             cpu: "600m"
-        
-
-  
-  
-  
-
 ---
-
 apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: mcweb
   labels:
-        app: mcweb
-        component: mcweb
+    app: mcweb
+    component: mcweb
 spec:
   replicas: 2  
+  selector: 
+    matchLabels: 
+      app: mcweb
+      component: mcweb
   minReadySeconds: 10
   strategy:
     type: RollingUpdate
@@ -128,16 +127,14 @@ spec:
     metadata:
       labels:
         app: mcweb
+        component: mcweb
     spec:
       containers:
       - name: mcweb
-        image: productmicroservice.azurecr.io/mcweb:latest     
+        image: microacr1.azurecr.io/mcweb:latest     
         ports:
         - containerPort: 80
-        imagePullPolicy: Always   
-       
-
-    
+        imagePullPolicy: Always       
 ---
 apiVersion: extensions/v1beta1
 kind: Ingress
@@ -147,15 +144,10 @@ metadata:
     kubernetes.io/ingress.class: addon-http-application-routing
 spec:
   rules:
-  - host: microcouriers-dns-00551aee.hcp.centralus.azmk8s.io
+  - host: cluster1-resource1-93b645-ffbec959.hcp.centralus.azmk8s.io
     http:
       paths:     
       - backend:
           serviceName: mcweb
           servicePort: 5004
         path: /
-      
-        
-        
-        
-      
