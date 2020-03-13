@@ -99,7 +99,7 @@ namespace Tracking.API
             app.UseMvc();
 
             //Ensure Event Database exists
-            trackingRepo.EnsureDatabase();
+            //trackingRepo.EnsureDatabase();
 
 
             ConfigureEventBus(app);

@@ -25,10 +25,7 @@ namespace Booking.API
 
                     //We are using Linux SQL container and it may take some time to fireup .
                     //We are retrying the connectivity
-                    Policy
-                       .Handle<Exception>()
-                       .WaitAndRetry(5, r => TimeSpan.FromSeconds(10))
-                       .Execute(() => concreteContext.Database.Migrate());
+
                 }
                 catch (Exception)
                 {

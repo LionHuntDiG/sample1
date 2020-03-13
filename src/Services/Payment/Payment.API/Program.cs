@@ -30,10 +30,7 @@ namespace Payment.API
                     var concreteContext = (PaymentDbContext)context;                  
 
                     //Retry logic for DB connectivity
-                    Policy
-                       .Handle<Exception>()
-                       .WaitAndRetry(5, r => TimeSpan.FromSeconds(10))
-                       .Execute(() => concreteContext.Database.Migrate());
+
 
                 }
                 catch (Exception)
