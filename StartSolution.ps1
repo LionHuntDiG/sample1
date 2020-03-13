@@ -1,5 +1,5 @@
 echo "====================="
-echo "====== Volumes ======"
+echo "====== Application Started ======"
 echo "====================="
 # docker volume create --name=sqlserverdata
 

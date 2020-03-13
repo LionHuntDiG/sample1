@@ -54,13 +54,14 @@
         var Sep = "<br>-------------------------------------------";
         $.each(arr, function (index, value) {
 
+            debugger;
             if (this.OrderState.indexOf("Created") > -1) {
-                resultString += "<br>Booking Created - " + this.DateTime + "<br>" + "Origion - " + this.Origion + " Dest -" + this.Destination + "<br> Description :" + this.Description;
+                resultString += "<br>Booking Created - " + this.DateTime + "<br>" + "Origion - " + this.Origion + " Dest -" + this.Destination + "<br> Description : Booking Created";
             }
 
             if (this.OrderState.indexOf("Payment") > -1) {
                 resultString += Sep;
-                resultString += "<br>Payment - " + this.DateTime + "<br>";
+                resultString += "<br>Payment - " + this.DateTime + "<br> Description : " + this.Description;
             }
 
             if (this.OrderState.indexOf("OrderPicked") > -1) {
