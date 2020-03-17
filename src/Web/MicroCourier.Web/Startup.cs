@@ -14,6 +14,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Polly;
 using Polly.Extensions.Http;
+using Microsoft.Extensions.Logging;
 
 namespace MicroCourier.Web
 {
@@ -45,7 +46,7 @@ namespace MicroCourier.Web
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
-        public void Configure(IApplicationBuilder app, IHostingEnvironment env, IConfiguration config)
+        public void Configure(IApplicationBuilder app, IHostingEnvironment env, IConfiguration config, ILoggerFactory loggerFactory)
         {
             if (env.IsDevelopment())
             {
@@ -55,6 +56,7 @@ namespace MicroCourier.Web
             {
                 app.UseExceptionHandler("/Home/Error");
             }
+            loggerFactory.AddFile("Logs/mcweb-{Date}.txt");
 
             var tConfig = app.ApplicationServices.GetRequiredService<TelemetryConfiguration>();
             tConfig.InstrumentationKey = config["ApplicationInsights:InstrumentationKey"];

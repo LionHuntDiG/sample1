@@ -55,14 +55,18 @@ namespace MicroCourier.Web.RESTClients
                 var result = await _client.PostAsync("/api/booking", new StringContent(JsonConvert.SerializeObject(command),
                      Encoding.UTF8, "application/json"));
 
+
+
                 if (result.StatusCode != HttpStatusCode.Created)
                     throw new Exception(result.ReasonPhrase);
+
+
 
                 return await result.Content.ReadAsStringAsync();
             }
             catch (Exception ex)
             {
-                throw ex;
+                return ex.Message + "\n" + ex.StackTrace + _client.BaseAddress;
             }
         }
 

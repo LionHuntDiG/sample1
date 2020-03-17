@@ -8,6 +8,7 @@ using MicroCourier.Web.RESTClients;
 using Microsoft.ApplicationInsights;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Logging;
 using Polly.CircuitBreaker;
 
 namespace MicroCourier.Web.Controllers
@@ -19,11 +20,13 @@ namespace MicroCourier.Web.Controllers
 
         private readonly IBookingAPI _bookingAPI;
         private TelemetryClient telemetry;
+        private readonly ILogger _logger;
 
-        public BookingController(IBookingAPI bookingAPi, TelemetryClient telemetry)
+        public BookingController(IBookingAPI bookingAPi, TelemetryClient telemetry, ILoggerFactory logger)
         {
             _bookingAPI = bookingAPi;
             this.telemetry = telemetry;
+            _logger = logger.CreateLogger(typeof(BookingController));
         }
 
         // GET: api/Booking/5
@@ -33,6 +36,7 @@ namespace MicroCourier.Web.Controllers
         {
             try
             {
+                _logger.LogInformation("Log message in the Get() method");
                 var res = await _bookingAPI.GetBookingById(id);
 
                 if (res == null)
@@ -48,6 +52,7 @@ namespace MicroCourier.Web.Controllers
             }
             catch(Exception ex)
             {
+                _logger.LogInformation("Exception in Booking-> Get: " + ex);
                 telemetry.TrackException(ex);
                 return StatusCode(StatusCodes.Status500InternalServerError, "Sorry Some problem Occured");
             }
@@ -63,6 +68,7 @@ namespace MicroCourier.Web.Controllers
         {
             try
             {
+                _logger.LogInformation("Log message in the Create() method");
                 if (!ModelState.IsValid)
                 {
                     return BadRequest(ModelState);
@@ -73,12 +79,14 @@ namespace MicroCourier.Web.Controllers
             }
             catch (BrokenCircuitException ex)
             {
+                _logger.LogInformation("Exception in Booking-> Create: " + ex);
                 telemetry.TrackException(ex);
                 // Catches error when bookingapi is in circuit-opened mode                
                 return StatusCode(StatusCodes.Status500InternalServerError, "Sorry Booking Service Is Not Available. Please try again later.");
             }
             catch (Exception ex)
             {
+                _logger.LogInformation("Exception in Booking-> Create: " + ex);
                 telemetry.TrackException(ex);
                 return StatusCode(StatusCodes.Status500InternalServerError, "Sorry Some problem Occured In booking Service");
             }         

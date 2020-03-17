@@ -11,6 +11,7 @@ using MediatR;
 using Microsoft.ApplicationInsights;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Logging;
 
 namespace Booking.API.Controllers
 {
@@ -19,10 +20,12 @@ namespace Booking.API.Controllers
     public class BookingController : BaseController
     {
         private TelemetryClient telemetry;
+        private readonly ILogger _logger;
 
-        public BookingController(TelemetryClient telemetry)
+        public BookingController(TelemetryClient telemetry, ILoggerFactory logger)
         {
             this.telemetry = telemetry;
+            _logger = logger.CreateLogger(typeof(BookingController));
         }
 
 
@@ -36,6 +39,7 @@ namespace Booking.API.Controllers
         {
             try
             {
+                _logger.LogInformation("Log message in the Booking.API.Get() method");
                 BookingOrder resultSet = await Mediator.Send(new GetBookingQuery() { BookingId = Id });
 
                 if (resultSet == null)
@@ -50,6 +54,7 @@ namespace Booking.API.Controllers
             }
             catch(Exception ex)
             {
+                _logger.LogInformation("Exception in Booking.API-> Get: " + ex);
                 telemetry.TrackException(ex);
                 return StatusCode(StatusCodes.Status500InternalServerError, "Sorry Some problem Occured");
             }                       
@@ -66,6 +71,7 @@ namespace Booking.API.Controllers
         {
             try
             {
+                _logger.LogInformation("Log message in the Booking.API.Create() method");
                 if (!ModelState.IsValid)
                 {
                     return BadRequest(ModelState);
@@ -77,6 +83,7 @@ namespace Booking.API.Controllers
                 return StatusCode(StatusCodes.Status201Created, bookingOrderId);
             }
             catch(Exception ex){
+                _logger.LogInformation("Exception in Booking.API -> Create: " + ex);
                 telemetry.TrackException(ex);
                 return StatusCode(StatusCodes.Status500InternalServerError, "Sorry We are Unable to Create Booking.");
             }            

@@ -5,6 +5,8 @@ using Microsoft.AspNetCore.Hosting;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
 using Polly;
+using Microsoft.Extensions.Logging;
+
 
 namespace Booking.API
 {
@@ -38,6 +40,12 @@ namespace Booking.API
 
         public static IWebHostBuilder CreateWebHostBuilder(string[] args) =>
             WebHost.CreateDefaultBuilder(args)
+                .ConfigureLogging(logBuilder =>
+                {
+                    logBuilder.ClearProviders(); // removes all providers from LoggerFactory
+                    logBuilder.AddConsole();
+                    logBuilder.AddTraceSource("Information, ActivityTracing"); // Add Trace listener provider
+                })
                 .UseApplicationInsights()
                 .UseStartup<Startup>();
     }

@@ -3,27 +3,27 @@
 az login
  
 
-2 login to your ACR (Azure container Registry)   replace [acrname] with your ACR to upload the images
-az acr login --name [acrname]
+2 login to your ACR (Azure container Registry)   replace microacr1 with your ACR to upload the images
+az acr login --name microacr1
  
 3 tag images and push to repo
 
 
 
-docker tag trackingapi [acrname].azurecr.io/trackingapi:latest
-docker push [acrname].azurecr.io/trackingapi:latest
+docker tag trackingapi microacr1.azurecr.io/trackingapi:latest
+docker push microacr1.azurecr.io/trackingapi:latest
  
 
-docker tag bookingapi [acrname].azurecr.io/bookingapi:latest
-docker push [acrname].azurecr.io/bookingapi:latest
+docker tag bookingapi microacr1.azurecr.io/bookingapi:latest
+docker push microacr1.azurecr.io/bookingapi:latest
 
 
-docker tag paymentapi [acrname].azurecr.io/paymentapi:latest
-docker push [acrname].azurecr.io/paymentapi:latest
+docker tag paymentapi microacr1.azurecr.io/paymentapi:latest
+docker push microacr1.azurecr.io/paymentapi:latest
 
 
-docker tag mcweb [acrname].azurecr.io/mcweb:latest
-docker push [acrname].azurecr.io/mcweb:latest
+docker tag mcweb microacr1.azurecr.io/mcweb:latest
+docker push microacr1.azurecr.io/mcweb:latest
 
 4 Deploy service and deployment manifest
 
