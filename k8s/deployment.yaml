@@ -144,7 +144,7 @@ metadata:
     kubernetes.io/ingress.class: addon-http-application-routing
 spec:
   rules:
-  - host: cluster1-resource1-93b645-ffbec959.hcp.centralus.azmk8s.io
+  - host: akssha-akshandsonlab-93b645-b7ede46e.hcp.centralus.azmk8s.io
     http:
       paths:     
       - backend:

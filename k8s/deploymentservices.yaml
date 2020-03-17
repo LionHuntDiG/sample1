@@ -9,7 +9,7 @@ spec:
     targetPort: 80
   selector:
     app: trackingapi
-  type: ClusterIP
+  type: LoadBalancer
   
   
           
@@ -25,7 +25,7 @@ spec:
     targetPort: 80
   selector:
     app: paymentapi
-  type: ClusterIP
+  type: LoadBalancer
   
   
   
@@ -42,7 +42,7 @@ spec:
     targetPort: 80
   selector:
     app: bookingapi
-  type: ClusterIP
+  type: LoadBalancer
   
   
           
