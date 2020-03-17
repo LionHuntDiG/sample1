@@ -10,6 +10,7 @@ spec:
   selector:
     app: trackingapi
   type: LoadBalancer
+  loadBalancerIP: 52.158.210.217
   
   
           
@@ -26,6 +27,7 @@ spec:
   selector:
     app: paymentapi
   type: LoadBalancer
+  loadBalancerIP: 52.158.211.127
   
   
   
@@ -43,6 +45,7 @@ spec:
   selector:
     app: bookingapi
   type: LoadBalancer
+  loadBalancerIP: 52.158.209.142
   
   
           
